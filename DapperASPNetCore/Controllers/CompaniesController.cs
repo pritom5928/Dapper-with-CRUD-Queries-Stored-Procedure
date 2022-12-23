@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System;
 using DapperASPNetCore.Dto;
+using System.Collections.Generic;
+using DapperASPNetCore.Entities;
 
 namespace DapperASPNetCore.Controllers
 {
@@ -143,6 +145,21 @@ namespace DapperASPNetCore.Controllers
                 var company = await _companyRepo.GetCompaniesEmployeesMultipleMapping();
 
                 return Ok(company);
+            }
+            catch (Exception ex)
+            {
+                //log error
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost("MultipleCompanyCreate")]
+        public async Task<IActionResult> CreateCompanies(List<CompanyForCreationDto> companies)
+        {
+            try
+            {
+                var result = await _companyRepo.CreateMultipleCompanies(companies);
+                return Ok(result);
             }
             catch (Exception ex)
             {

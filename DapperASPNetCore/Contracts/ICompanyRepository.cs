@@ -16,6 +16,6 @@ namespace DapperASPNetCore.Contracts
         public Task<Company> GetCompanyByEmployeeId(int id);
         public Task<Company> GetCompanyEmployeesMultipleResults(int id);
         public Task<List<Company>> GetCompaniesEmployeesMultipleMapping();
-        Task CreateMultipleCompanies(List<CompanyForCreationDto> companies);
+        Task<bool> CreateMultipleCompanies(List<CompanyForCreationDto> companies);
     }
 }

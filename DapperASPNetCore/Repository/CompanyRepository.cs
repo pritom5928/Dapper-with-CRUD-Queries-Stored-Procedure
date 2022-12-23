@@ -6,6 +6,7 @@ using DapperASPNetCore.Entities;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace DapperASPNetCore.Repository
@@ -140,8 +141,9 @@ namespace DapperASPNetCore.Repository
             }
         }
 
-        public async Task CreateMultipleCompanies(List<CompanyForCreationDto> companies)
+        public async Task<bool> CreateMultipleCompanies(List<CompanyForCreationDto> companies)
         {
+            bool result = false;
             var query = "INSERT INTO Companies (Name, Address, Country) VALUES (@Name, @Address, @Country)";
 
             using (var connection = _context.CreateConnection())
@@ -170,9 +172,12 @@ namespace DapperASPNetCore.Repository
                     {
                         transaction.Commit();
                         connection.Close();
+                        result = true;
                     }
+                    connection.Dispose();
                 }
             }
+            return result;
         }
     }
 }
